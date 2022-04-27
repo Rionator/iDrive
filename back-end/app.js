@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const bodyparser = require("body-parser");
 const methodOverride = require("method-override");
 const connectDB = require("./config/database/db");
+const cors = require("cors");
 
 dotenv.config({ path: "./config/.env" });
 const PORT = process.env.PORT || 8080;
@@ -12,6 +13,7 @@ const app = express();
 
 connectDB();
 
+app.use(cors());
 app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(bodyparser.urlencoded({ extended: false }));
