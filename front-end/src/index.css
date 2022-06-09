@@ -1,0 +1,15 @@
+.container-next {
+  display: flex;
+  justify-content: center;
+}
+
+.container-last {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+img {
+  height: 50;
+  width: 50;
+}

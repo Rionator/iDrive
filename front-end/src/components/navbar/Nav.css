@@ -1,0 +1,11 @@
+.right-list-container {
+    margin-left:auto;
+	align-items:center;
+}
+
+.flexbox{
+    display:-webkit-box;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:flex;
+}
