@@ -25,9 +25,9 @@ function generateRefreshToken(user) {
       email: user.email,
       isAdmin: user.isAdmin,
     },
-    process.env.REFRESH_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "1y",
+      expiresIn: process.env.REFRESH_TOKEN_SECRET,
     }
   );
 
