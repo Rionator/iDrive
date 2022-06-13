@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import { Button, Checkbox, Form, Input } from 'antd';
+import { loginFetch } from '../../api/getAPI';
+import { useNavigate } from 'react-router-dom';
 
 
 const App = () => {
@@ -9,24 +11,16 @@ const App = () => {
     const [password, setPassword] = useState('');
 
     const [loginStatus, setLoginStatus] = useState(false);
+
+    const navigate = useNavigate()
+
     const onFinish = async () => {
-        const response = await fetch('http://localhost:8080/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-                // 'x-access-token': location.Storage('')
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                password
-            })
-        })
+        const response = await loginFetch(name, email, password)
         if(response.status === 200) {
             const token = await response.json()
             localStorage.setItem('token', token.accessToken)
             setLoginStatus(true)
-            window.location.href = '/'
+            navigate('/my-drive')
         } else {
             setLoginStatus(false)
         }

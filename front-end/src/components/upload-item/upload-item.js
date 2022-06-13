@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import 'antd/dist/antd.css';
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Upload } from 'antd';
+import { Button } from 'antd';
 import { uploadFile } from '../../api/getAPI'
+import UploadTest from './upload-test';
 
 function UploadItem(props) {
   const [selectedFile, setSelectedFile] = useState();
@@ -24,14 +25,17 @@ function UploadItem(props) {
 
   return (
     // <input type="file" name='file' className='UploadFile' icon={<UploadOutlined />} />
-    <div>
-      <input type="file" name="input_file" id="input_file" onChange={changeHandler} />
-      {
-        isSelected ?
-          <button onClick={handleSubmission}>Submit</button> :
-          <p>Select a file</p>
-      }
-    </div>
+    <>
+      <div>
+        <input type="file" id="input_file" onChange={changeHandler} />
+        {
+          isSelected ?
+            <button onClick={handleSubmission}>Submit</button> :
+            <p>Select a file</p>
+        }
+      </div>
+      <UploadTest/>
+    </>
   )
 }
 

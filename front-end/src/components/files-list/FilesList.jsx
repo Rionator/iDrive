@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import moment from "moment";
+import moment, { relativeTimeRounding } from "moment";
 import { getFiles, deleteFile } from '../../api/getAPI'
 import { SearchOutlined, DeleteFilled, EditFilled } from '@ant-design/icons';
 import { Table, Input, Button } from 'antd'
@@ -10,14 +10,7 @@ function FilesList(props) {
     const path = props.path
 
     useEffect(() => {
-        const getAll = async () => {
-            setLoading(true)
-            const data = await getFiles
-            setFilesList(data)
-            setLoading(false)
-        }
-        getAll()
-        console.log(filesList)
+        getFiles(setFilesList)
     }, [])
 
     const onDeleteItem = (item) => {
@@ -87,7 +80,7 @@ function FilesList(props) {
             loading={loading}
             dataSource={filesList}
             columns={columns}
-            rowKey={filesList._id}
+            rowKey='_id'
         />
     )
 }

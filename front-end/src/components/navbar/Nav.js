@@ -6,6 +6,8 @@ import { Breadcrumb } from 'antd';
 import { UserOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Dropdown, Menu, Space, Typography } from 'antd';
 import './Nav.css'
+import { AddFolderButton } from '../add-folder/AddFolderButton';
+import { useFolder } from '../../hooks/useFolder';
 
 // const menu = (
 //   <Menu
@@ -41,17 +43,23 @@ import './Nav.css'
 // const { Title } = Typography;
 
 const Nav = () => {
+  const {folder} = useFolder()
+  console.log(folder)
+  // const folder = { name: "Root", id: 'sdfz3q1f3qf321zfzdsfg', path: [] }
   return (
 
     <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-      <Menu.Item><Link to='/'>Home</Link></Menu.Item>
+      <Menu.Item key='Home'><Link to='/'>Home</Link></Menu.Item>
 
-      <Menu.SubMenu key="SubMenu" title="" icon={<SettingOutlined style={{ fontSize: '1.5em' }}/>}>
+      <Menu.SubMenu key="SubMenu" title="" icon={<SettingOutlined style={{ fontSize: '1.5em' }} />}>
         <Menu.Item key="two">
           <Link to='/login'>Sign in</Link>
         </Menu.Item>
         <Menu.Item key="three">
           <Link to='/register'>Sign up</Link>
+        </Menu.Item>
+        <Menu.Item key="four">
+          <AddFolderButton currentFolder={folder}/>
         </Menu.Item>
       </Menu.SubMenu>
       {/* <div onClick={e => e.preventDefault()} className='right-list-container flexbox'>
