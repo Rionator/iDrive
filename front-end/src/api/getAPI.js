@@ -8,6 +8,16 @@
 //     .then(res => res.json())
 // )
 
+export const downloadFile = async (id) => {
+  const response = await fetch(`http://localhost:8080/api/download/${id}`, {
+    method: 'GET',
+    headers: {
+      'authorization': "Bearer " + localStorage.getItem('token')
+    }
+  })
+  return response
+}
+
 export const getFiles = async (setData) => {
   const response = await fetch(`http://localhost:8080/api/files-user`, {
     method: 'GET',

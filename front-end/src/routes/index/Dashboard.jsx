@@ -18,7 +18,7 @@ const Dashboard = () => {
       </Header>
       <Content>
         <h1>{currentPath}</h1>
-        <UploadItem path={currentPath} />
+        {/* <UploadItem path={currentPath} /> */}
         <FilesList path={currentPath}/>
       </Content>
       <Footer>Supinfo 2022</Footer>

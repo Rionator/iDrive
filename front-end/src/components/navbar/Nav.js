@@ -9,6 +9,7 @@ import './Nav.css'
 import { AddFolderButton } from '../add-folder/AddFolderButton';
 import { useFolder } from '../../hooks/useFolder';
 
+
 // const menu = (
 //   <Menu
 //     items={[
@@ -43,8 +44,12 @@ import { useFolder } from '../../hooks/useFolder';
 // const { Title } = Typography;
 
 const Nav = () => {
-  const {folder} = useFolder()
+  const { folder } = useFolder()
   console.log(folder)
+
+  const handleTestSubmit = () => {
+    console.log('bien sur frère')
+  }
   // const folder = { name: "Root", id: 'sdfz3q1f3qf321zfzdsfg', path: [] }
   return (
 
@@ -58,8 +63,11 @@ const Nav = () => {
         <Menu.Item key="three">
           <Link to='/register'>Sign up</Link>
         </Menu.Item>
-        <Menu.Item key="four">
-          <AddFolderButton currentFolder={folder}/>
+        <Menu.Item key="four" onClick={() => handleTestSubmit()}>
+          <AddFolderButton currentFolder={folder} />
+        </Menu.Item>
+        <Menu.Item key='upload-item'>
+          <Link to='/upload-file'>Upload File</Link>
         </Menu.Item>
       </Menu.SubMenu>
       {/* <div onClick={e => e.preventDefault()} className='right-list-container flexbox'>

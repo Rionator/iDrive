@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import moment, { relativeTimeRounding } from "moment";
-import { getFiles, deleteFile } from '../../api/getAPI'
-import { SearchOutlined, DeleteFilled, EditFilled } from '@ant-design/icons';
+import { getFiles, deleteFile, downloadFile } from '../../api/getAPI'
+import { SearchOutlined, DeleteFilled, EditFilled, DownloadOutlined } from '@ant-design/icons';
 import { Table, Input, Button } from 'antd'
 
 function FilesList(props) {
@@ -11,7 +11,7 @@ function FilesList(props) {
 
     useEffect(() => {
         getFiles(setFilesList)
-    }, [])
+    }, [setFilesList])
 
     const onDeleteItem = (item) => {
         deleteFile(item)
@@ -22,6 +22,10 @@ function FilesList(props) {
 
     const onEditNameItem = (item) => {
         console.log('TODO:')
+    }
+
+    const onDownloadNameItem = (item) => {
+        downloadFile(item)
     }
     const columns = [
 
@@ -59,8 +63,14 @@ function FilesList(props) {
         {
             title: 'Length',
             dataIndex: 'length',
-            width: '20%',
+            width: '15%',
             sorter: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+        },
+        {
+            title: 'Download',
+            dataIndex: '_id',
+            width: '5%',
+            render: item => <DownloadOutlined onClick={(e) => onDownloadNameItem(item)} />
         },
         {
             title: 'Edit',

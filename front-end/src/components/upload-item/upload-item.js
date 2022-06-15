@@ -3,7 +3,8 @@ import 'antd/dist/antd.css';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { uploadFile } from '../../api/getAPI'
-import UploadTest from './upload-test';
+// import UploadTest from './upload-test';
+import './upload-item.css'
 
 function UploadItem(props) {
   const [selectedFile, setSelectedFile] = useState();
@@ -14,6 +15,7 @@ function UploadItem(props) {
     setSelectedFile(e.target.files[0]);
     console.log(e.target.files[0])
     setIsSelected(true);
+    // handleSubmission()
   }
 
   const handleSubmission = () => {
@@ -26,15 +28,15 @@ function UploadItem(props) {
   return (
     // <input type="file" name='file' className='UploadFile' icon={<UploadOutlined />} />
     <>
-      <div>
-        <input type="file" id="input_file" onChange={changeHandler} />
+      <div className='upload-item-style'>
+        <input type="file" name='upload-input' id="input_file" onChange={changeHandler} />
         {
           isSelected ?
             <button onClick={handleSubmission}>Submit</button> :
             <p>Select a file</p>
         }
       </div>
-      <UploadTest/>
+      {/* <UploadTest /> */}
     </>
   )
 }
