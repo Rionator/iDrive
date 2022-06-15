@@ -27,7 +27,7 @@ function generateRefreshToken(user) {
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: process.env.REFRESH_TOKEN_SECRET,
+      expiresIn: "1h",
     }
   );
 
