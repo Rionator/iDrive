@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", require("./routes/users"));
 app.use("/api", require("./routes/file"));
+app.use("/api", require("./routes/folders"));
 app.use("/", require("./routes/login"));
 
 app.listen(PORT, () => {
