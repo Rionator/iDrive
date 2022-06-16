@@ -24,8 +24,15 @@ function FilesList(props) {
         console.log('TODO:')
     }
 
-    const onDownloadNameItem = (item) => {
-        downloadFile(item)
+    const onDownloadNameItem = async (item) => {
+        const file = await downloadFile(item)
+        const url = window.URL.createObjectURL(new Blob([file.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', item.filename);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
     const columns = [
 

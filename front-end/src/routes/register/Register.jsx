@@ -7,7 +7,11 @@ import {
     Row,
     Select,
 } from 'antd';
-import React, { useState } from 'react';
+import React, {useState, useContext} from 'react';
+import { UserContext } from '../../contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginFetch } from '../../api/getAPI';
+
 const { Option } = Select;
 const formItemLayout = {
     labelCol: {
@@ -34,9 +38,17 @@ const tailFormItemLayout = {
             offset: 0,
         },
         sm: {
-            span: 16,
+            span: 24,
             offset: 8,
         },
+        md: {
+            span: 24,
+            offset: 8
+        },
+        lg: {
+            span: 32,
+            offset: 8
+        }
     },
 };
 
@@ -45,9 +57,11 @@ const App = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const {isLogged, setIsLogged} = useContext(UserContext)
+    const navigate = useNavigate()
 
     const onFinish = async () => {
-        console.log(name)
+        
         const response = await fetch('http://localhost:8080/api/users', {
             method: 'POST',
             headers: {
@@ -60,17 +74,17 @@ const App = () => {
                 isAdmin: "false"
             })
         })
-
-        // if(response.status === 200) {
-        //     const token = await response.json()
-        //     localStorage.setItem('token', token.accessToken)
-        //     setLoginStatus(true)
-        //     window.location.href = '/'
-        // } else {
-        //     setLoginStatus(false)
-        // }
         const data = await response.json()
-
+        
+        const res = await loginFetch(name, email, password)
+        if(res.status === 200) {
+            const token = await res.json()
+            localStorage.setItem('token', token.accessToken)
+            setIsLogged(true)
+            navigate('/MyDrive')
+        } else {
+            setIsLogged(false)
+        }
         console.log(data)
     };
 
@@ -212,29 +226,6 @@ const App = () => {
                     <Option value="female">Female</Option>
                 </Select>
             </Form.Item>
-
-            <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-                <Row gutter={8}>
-                    <Col span={12}>
-                        <Form.Item
-                            name="captcha"
-                            noStyle
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input the captcha you got!',
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                        <Button>Get captcha</Button>
-                    </Col>
-                </Row>
-            </Form.Item>
-
             <Form.Item
                 name="agreement"
                 valuePropName="checked"
@@ -251,9 +242,18 @@ const App = () => {
                 </Checkbox>
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
-                    Register
-                </Button>
+                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                    <Col  className="gutter-row" span={10}>
+                        <Button type="primary" htmlType="submit">
+                            Register
+                        </Button>
+                    </Col>
+                    <Col  className="gutter-row" span={12}>
+                        <Link to="/signin">Sign in instead </Link>
+                    </Col>
+                </Row>
+
+                
             </Form.Item>
         </Form>
     );

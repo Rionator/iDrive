@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import 'antd/dist/antd.css'
 import FilesList from '../../components/files-list/FilesList';
 import UploadItem from '../../components/upload-item/upload-item'
+// import UploadItem from '../../components/upload-item/upload-test'
 import { Layout } from 'antd'
 import Nav from '../../components/navbar/Nav'
 
@@ -13,12 +14,12 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header>
+      {/* <Header>
         <Nav />
-      </Header>
+      </Header> */}
       <Content>
         <h1>{currentPath}</h1>
-        {/* <UploadItem path={currentPath} /> */}
+        <UploadItem path={currentPath} />
         <FilesList path={currentPath}/>
       </Content>
       <Footer>Supinfo 2022</Footer>

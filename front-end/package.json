@@ -4,13 +4,15 @@
   "private": true,
   "dependencies": {
     "antd": "^4.19.3",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-highlight-words": "^0.17.0",
+    "react-icons": "^4.4.0",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
-    "uninstall": "^0.0.0",
+    "styled-components": "^5.3.5",
     "uuid": "^8.3.2"
   },
   "scripts": {

@@ -1,60 +1,54 @@
-import React, {useState} from 'react';
-import 'antd/dist/antd.css';
+import React, {useState, useContext} from 'react';
+import { UserContext } from '../../contexts/AuthContext';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
+import './login.css'
 import { loginFetch } from '../../api/getAPI';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-const App = () => {
+const Login = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [loginStatus, setLoginStatus] = useState(false);
+    const {isLogged, setIsLogged} = useContext(UserContext)
 
     const navigate = useNavigate()
 
-    const onFinish = async () => {
+    const onFinish = async() => {
         const response = await loginFetch(name, email, password)
         if(response.status === 200) {
             const token = await response.json()
             localStorage.setItem('token', token.accessToken)
-            setLoginStatus(true)
-            navigate('/my-drive')
+            setIsLogged(true)
+            navigate('/MyDrive')
         } else {
-            setLoginStatus(false)
+            setIsLogged(false)
         }
     };
 
     return (
         <Form
-            name="basic"
-            labelCol={{
-                span: 8,
-            }}
-            wrapperCol={{
-                span: 8,
-            }}
+            name="normal_login"
+            className="login-form"
             initialValues={{
                 remember: true,
             }}
             onFinish={onFinish}
-            autoComplete="off"
         >
             <Form.Item
-                label="Username"
                 name="username"
+                label="Username"
                 onChange={e=>setName(e.target.value)}
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your username!',
+                        message: 'Please input your Username!',
                     },
                 ]}
             >
                 <Input />
             </Form.Item>
-
             <Form.Item
                 label="Password"
                 name="password"
@@ -62,36 +56,30 @@ const App = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your password!',
+                        message: 'Please input your Password!',
                     },
                 ]}
             >
                 <Input.Password />
             </Form.Item>
+            <Form.Item>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Checkbox>Remember me</Checkbox>
+                </Form.Item>
 
-            <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{
-                    offset: 8,
-                    span: 8,
-                }}
-            >
-                <Checkbox>Remember me</Checkbox>
+                <a className="login-form-forgot" href="">
+                    Forgot password
+                </a>
             </Form.Item>
 
-            <Form.Item
-                wrapperCol={{
-                    offset: 8,
-                    span: 8,
-                }}
-            >
-                <Button type="primary" htmlType="submit">
-                    Submit
+            <Form.Item>
+                <Button type="primary" htmlType="submit" className="login-form-button">
+                    Log in
                 </Button>
+                Or <Link to="/signup">register now!</Link>
             </Form.Item>
         </Form>
     );
 };
 
-export default App;
+export default Login;

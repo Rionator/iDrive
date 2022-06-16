@@ -1,16 +1,9 @@
-// export const getLastLaunches = () => (
-//   fetch('https://api.spacex.land/rest/launches-past?offset=0&limit=3')
-//     .then(res => res.json())
-// )
-
-// export const getNextLaunch = () => (
-//   fetch('https://api.spacex.land/rest/launch-next')
-//     .then(res => res.json())
-// )
+import { niceBytes } from "../utils/utils"
 
 export const downloadFile = async (id) => {
   const response = await fetch(`http://localhost:8080/api/download/${id}`, {
     method: 'GET',
+    responseType: "blob",
     headers: {
       'authorization': "Bearer " + localStorage.getItem('token')
     }
@@ -18,21 +11,26 @@ export const downloadFile = async (id) => {
   return response
 }
 
+
 export const getFiles = async (setData) => {
+
   const response = await fetch(`http://localhost:8080/api/files-user`, {
     method: 'GET',
     headers: {
       'authorization': "Bearer " + localStorage.getItem('token')
     }
   })
-  setData(await response.json())
+  if(response.status === 204) {
+    const data = []
+    setData(data)
+  } else {
+    const data = await response.json()
+    setData(data)
+  }
 }
-// export const getAllLaunches = () => (
-//   fetch('https://localhost:8080/api/file-user/')
-//     .then(res => res.json())
-// )
 
 export const loginFetch = async (name, email, password) => {
+  console.log(name, email, password)
   const response = await fetch('http://localhost:8080/login', {
     method: 'POST',
     headers: {
@@ -70,5 +68,6 @@ export const uploadFile = async (formData) => {
     },
     body: formData
   })
+
   return response.json()
 }

@@ -4,15 +4,17 @@ import { useNavigate } from 'react-router-dom';
 const Auth = () => {
     const [loginStatus, setLoginStatus] = useState(false);
 
+    
+
     const navigate = useNavigate()
     useEffect(() => {
         const token = localStorage.getItem('token')
 
         if (token) {
             setLoginStatus(true)
-            navigate('/my-drive')
+            navigate('/MyDrive')
         } else {
-            navigate('/login')
+            navigate('/signin')
         }
 
     }, [])
