@@ -45,7 +45,6 @@ import { useFolder } from '../../hooks/useFolder';
 
 const Nav = () => {
   const { folder } = useFolder()
-  console.log(folder)
 
   const handleTestSubmit = () => {
     console.log('bien sur frère')

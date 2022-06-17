@@ -1,8 +1,9 @@
 import React from 'react'
+import UserList from '../../components/user-list/UserList'
 
 const AdminView = () => {
   return (
-    <div>AdminView</div>
+    <UserList/>
   )
 }
 

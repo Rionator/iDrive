@@ -13,7 +13,6 @@ function UploadItem(props) {
   const changeHandler = e => {
     setSelectedFile(e.target.files[0]);
     setFileName(e.target.files[0].name)
-    console.log(e.target.files[0])
     setIsSelected(true);
     // handleSubmission()
   }

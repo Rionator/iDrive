@@ -5,8 +5,8 @@ function generateAccessToken(user) {
     {
       _id: user._id,
       name: user.name,
-      email: user.email,
       isAdmin: user.isAdmin,
+      isBlocked: user.isBlocked
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -22,8 +22,8 @@ function generateRefreshToken(user) {
     {
       _id: user._id,
       name: user.name,
-      email: user.email,
       isAdmin: user.isAdmin,
+      isBlocked: user.isBlocked
     },
     process.env.ACCESS_TOKEN_SECRET,
     {

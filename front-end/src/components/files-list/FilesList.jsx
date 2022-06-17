@@ -4,10 +4,9 @@ import { getFiles, deleteFile, downloadFile } from '../../api/getAPI'
 import { SearchOutlined, DeleteFilled, EditFilled, DownloadOutlined } from '@ant-design/icons';
 import { Table, Input, Button } from 'antd'
 
-function FilesList(props) {
+function FilesList() {
     const [filesList, setFilesList] = useState([])
     const [loading, setLoading] = useState(false)
-    const path = props.path
 
     useEffect(() => {
         getFiles(setFilesList)
@@ -24,15 +23,8 @@ function FilesList(props) {
         console.log('TODO:')
     }
 
-    const onDownloadNameItem = async (item) => {
-        const file = await downloadFile(item)
-        const url = window.URL.createObjectURL(new Blob([file.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', item.filename);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+    const onDownloadNameItem = (item) => {
+        downloadFile(item)
     }
     const columns = [
 

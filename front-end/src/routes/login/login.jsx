@@ -1,17 +1,18 @@
 import React, {useState, useContext} from 'react';
-import { UserContext } from '../../contexts/AuthContext';
+import { UserContext,AdminContext } from '../../contexts/AuthContext';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import './login.css'
 import { loginFetch } from '../../api/getAPI';
 import { Link, useNavigate } from 'react-router-dom';
+import { getIsAdmin } from '../../auth/auth';
 
 const Login = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const {isLogged, setIsLogged} = useContext(UserContext)
+    const {isLogged, setIsLogged, isAdmin, setIsAdmin} = useContext(UserContext)
 
     const navigate = useNavigate()
 
@@ -21,6 +22,8 @@ const Login = () => {
             const token = await response.json()
             localStorage.setItem('token', token.accessToken)
             setIsLogged(true)
+            const admin = getIsAdmin()
+            setIsAdmin(admin)
             navigate('/MyDrive')
         } else {
             setIsLogged(false)

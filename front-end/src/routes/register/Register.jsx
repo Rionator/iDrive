@@ -11,6 +11,7 @@ import React, {useState, useContext} from 'react';
 import { UserContext } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginFetch } from '../../api/getAPI';
+import { getIsAdmin } from '../../auth/auth';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -57,7 +58,9 @@ const App = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const {isLogged, setIsLogged} = useContext(UserContext)
+    const [phoneNumber, setPhoneNumber] = useState('')
+    const [gender, setGender] = useState('')
+    const {isLogged, setIsLogged, isAdmin, setIsAdmin} = useContext(UserContext)
     const navigate = useNavigate()
 
     const onFinish = async () => {
@@ -71,7 +74,9 @@ const App = () => {
                 name,
                 email,
                 password,
-                isAdmin: "false"
+                phoneNumber,
+                gender
+                
             })
         })
         const data = await response.json()
@@ -81,11 +86,12 @@ const App = () => {
             const token = await res.json()
             localStorage.setItem('token', token.accessToken)
             setIsLogged(true)
+            const admin = getIsAdmin(token)
+            setIsAdmin(admin)
             navigate('/MyDrive')
         } else {
             setIsLogged(false)
         }
-        console.log(data)
     };
 
     const prefixSelector = (
@@ -188,6 +194,7 @@ const App = () => {
             <Form.Item
                 name="phone"
                 label="Phone Number"
+                onChange={e => setPhoneNumber(e.target.value)}
                 rules={[
                     {
                         required: true,
@@ -214,12 +221,7 @@ const App = () => {
             <Form.Item
                 name="gender"
                 label="Gender"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please select gender!',
-                    },
-                ]}
+                onChange={e => setGender(e.target.value)}
             >
                 <Select placeholder="select your gender">
                     <Option value="male">Male</Option>

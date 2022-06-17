@@ -5,10 +5,29 @@ export const downloadFile = async (id) => {
     method: 'GET',
     responseType: "blob",
     headers: {
+      'Content-Type': 'application/pdf',
+      'Accept': 'application/pdf',
       'authorization': "Bearer " + localStorage.getItem('token')
     }
   })
-  return response
+  const blob = await response.blob
+  const url = window.URL.createObjectURL(new Blob([blob]))
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute(
+    'download',
+    `FileName.pdf`,
+  );
+
+  // Append to html link element page
+  document.body.appendChild(link);
+
+  // Start download
+  link.click();
+
+  // Clean up and remove the link
+  link.parentNode.removeChild(link);
+  // return response
 }
 
 
@@ -30,7 +49,6 @@ export const getFiles = async (setData) => {
 }
 
 export const loginFetch = async (name, email, password) => {
-  console.log(name, email, password)
   const response = await fetch('http://localhost:8080/login', {
     method: 'POST',
     headers: {
@@ -70,4 +88,37 @@ export const uploadFile = async (formData) => {
   })
 
   return response.json()
+}
+
+export const getUsers = async() => {
+  const response = await fetch(`http://localhost:8080/api/users`, {
+    method: 'GET',
+    headers: {
+      'authorization': "Bearer " + localStorage.getItem('token')
+    }
+  })
+  return response;
+}
+export const getUser = async(id) => {
+  const response = await fetch(`http://localhost:8080/api/users/${id}`, {
+    method: 'GET',
+    headers: {
+      'authorization': "Bearer " + localStorage.getItem('token')
+    }
+  })
+  return response.json();
+}
+
+export const blockUser = async(id, isBlocked) => {
+  const response = await fetch(`http://localhost:8080/api/users/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': "Bearer " + localStorage.getItem('token')
+    },
+    body: JSON.stringify({
+      isBlocked,
+    })
+  })
+  return response
 }

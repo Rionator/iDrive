@@ -6,6 +6,7 @@ const fileController = require("../controllers/fileController");
 // API
 route.post("/users", userController.register);
 route.get("/users", userController.find);
+route.get("/users/:id", userController.findUserById);
 route.put("/users/:id", authToken, userController.update);
 route.delete(
   "/users/:id",

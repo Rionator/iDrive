@@ -24,7 +24,6 @@ export const AddFolderButton = ({ currentFolder }) => {
         if (currentFolder !== ROOT_FOLDER) {
             path.push({ name: currentFolder.name, id: currentFolder.id })
         }
-        console.log(name)
         const addFolder = async () => {
             const response = await fetch('http://localhost:8080/api/add-folder', {
                 method: 'POST',

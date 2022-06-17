@@ -1,7 +1,8 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useContext } from 'react';
-import { setTokenWithExpiry } from '../../auth/auth';
-import { UserContext } from '../../contexts/AuthContext';
+import { getIsAdmin, setTokenWithExpiry } from '../../auth/auth';
+import { AdminContext, UserContext } from '../../contexts/AuthContext';
 import {
   Nav,
   NavLink,
@@ -11,12 +12,22 @@ import {
   NavBtnLink
 } from './NavbarElements';
 
-const Navbar = ({ isAdmin, setIsAdmin }) => {
-  const {isLogged, setIsLogged} = useContext(UserContext)
+const Navbar = () => {
+  const { isLogged, setIsLogged, isAdmin, setIsAdmin } = useContext(UserContext)
+
+  useEffect(() => {
+    const adminCheck = async()=>{
+      const token = localStorage.getItem('token')
+      const admin = getIsAdmin(token)
+      setIsAdmin(admin)
+    }
+    adminCheck()
+  }, [setIsAdmin])
+
   const handleLogOut = () => {
     setTokenWithExpiry()
-    setIsLogged(false)
     setIsAdmin(false)
+    setIsLogged(false)
 
   }
   return (
@@ -46,7 +57,7 @@ const Navbar = ({ isAdmin, setIsAdmin }) => {
                   </NavLink>
                 )
               }
-              <NavBtnLink to='/' onClick={()=> handleLogOut()}>Sign Out</NavBtnLink>
+              <NavBtnLink to='/' onClick={() => handleLogOut()}>Sign Out</NavBtnLink>
             </NavBtn>
           )
         }

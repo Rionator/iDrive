@@ -9,13 +9,15 @@ exports.register = (req, res) => {
     return;
   }
   let password = req.body.password;
-
   password = bcrypt.hash(password, 10).then((password) => {
     const user = new Userdb({
       name: req.body.name,
-      password: password,
       email: req.body.email,
+      password: password,
+      phoneNumber: req.body.phoneNumber,
+      gender: req.body.gender,
       isAdmin: req.body.isAdmin,
+      isBlocked: req.body.isBlocked
     });
     user
       .save(user)
@@ -43,6 +45,29 @@ exports.find = (req, res) => {
       });
     });
 };
+
+// retrieve user by id
+exports.findUserById = async(req, res) => {
+  const id = req.params.id;
+  const userInDb = await Userdb.findById(id);
+
+  Userdb.findOne({ _id: id })
+    .then((user) => {
+      if (!user) {
+        res
+          .status(404)
+          .send({ message: "Cannot get user, Id may be wrong" });
+      } else {
+        res.send(userInDb);
+      }
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: "Internal error, could not get user. " + err });
+    });
+}
+
 
 // Update user by user id
 
@@ -85,7 +110,7 @@ exports.deleteSelfUser = async (req, res) => {
   const userJWT = req.user;
 
   try {
-    if (userJWT.is_admin) {
+    if (userJWT.isAdmin) {
       res
         .status(401)
         .send("An administrator is not allowed to delete himself.");
@@ -103,7 +128,7 @@ exports.deleteUserById = async (req, res) => {
   const userInDb = await Userdb.findById(id);
   userJWT = req.user;
 
-  if (userJWT.is_admin && userJWT._id != id) {
+  if (userJWT.isAdmin && userJWT._id != id) {
     return res
       .status(401)
       .send({ message: "Not authorized to delete other user" });
@@ -121,6 +146,6 @@ exports.deleteUserById = async (req, res) => {
     .catch((err) => {
       res
         .status(500)
-        .send({ message: "Internal error, could not delet user. " + err });
+        .send({ message: "Internal error, could not delete user. " + err });
     });
 };

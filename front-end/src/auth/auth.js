@@ -4,14 +4,13 @@ export function getIsUser(key = "token") {
     const itemStr = localStorage.getItem(key)
 
     if (!itemStr) {
-        console.log('No token User')
+        // console.log('No token User')
         return null
     }
 
     // const item = JSON.parse(itemStr)
     // const decodedItem = jwt_decode(item.token)
     const decodedItem = jwt_decode(itemStr)
-    const now = new Date()
 
 
     // if (now.getTime() > decodedItem.exp * 1000) {
@@ -25,14 +24,30 @@ export function getIsAdmin(key = "token") {
     const itemStr = localStorage.getItem(key)
 
     if (!itemStr) {
-        console.log('No token Admin')
+        // console.log('No token Admin')
         return null
     }
 
     // const item = JSON.parse(itemStr)
     const decodedItem = jwt_decode(itemStr)
+    console.log(decodedItem)
+    if (decodedItem.isAdmin) {
+        return true
+    }
+    return false
+}
 
-    if (decodedItem.is_admin) {
+export function getIsBlocked(key = "token") {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+        // console.log('No token Admin')
+        return null
+    }
+
+    // const item = JSON.parse(itemStr)
+    const decodedItem = jwt_decode(itemStr)
+    if (decodedItem.isBlocked) {
         return true
     }
     return false
