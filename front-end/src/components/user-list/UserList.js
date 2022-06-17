@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { getUsers,getUser, blockUser} from '../../api/getAPI'
+import React, { useContext, useEffect, useState } from 'react'
+import { getUsers, getUser, blockUser, loginFetch } from '../../api/getAPI'
 import { SearchOutlined, StopOutlined, LoginOutlined } from '@ant-design/icons';
 import { Table, Input, Button } from 'antd'
-import { getIsBlocked } from '../../auth/auth';
+import { getIsAdmin, getIsBlocked } from '../../auth/auth';
+import { UserContext } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const UserList = () => {
     const [usersList, setUsersList] = useState([])
     const [loading, setLoading] = useState(false)
 
+    const navigate = useNavigate()
+
+    const { isLogged, setIsLogged, isAdmin, setIsAdmin, isImpressionate, setIsImpressionate } = useContext(UserContext)
+
     useEffect(() => {
-        const fetchUsers = async() => {
+        const fetchUsers = async () => {
             const response = await getUsers()
-            if(response.status === 204) {
+            if (response.status === 204) {
                 const data = []
                 setUsersList(data)
-              } else {
+            } else {
                 const data = await response.json()
                 const result = data.filter(row => !row.isAdmin)
                 setUsersList(result)
-                console.log(usersList)
-              }
+            }
         }
         fetchUsers()
     }, [setUsersList])
@@ -37,25 +42,40 @@ const UserList = () => {
     // const onUnBlock = (item) => {
     //     console.log('unBlock')
     // }
-    
 
-    const onImpersonate = (item) => {
-        console.log('Impersonate')
+
+    const onImpersonate = async (item) => {
+        const user = usersList.filter(user => user._id === item)[0]
+        console.log(user.name, user.email, "123")
+        // console.log(user)
+        const Admintoken = localStorage.getItem('token')
+        localStorage.setItem('adminToken', Admintoken)
+        const response = await loginFetch(user.name, user.email, "123")
+        if (response.status === 200) {
+            const token = await response.json()
+            localStorage.setItem('token', token.accessToken)
+            setIsLogged(true)
+            setIsAdmin(false)
+            setIsImpressionate(true)
+            navigate('/')
+        } else {
+            setIsLogged(false)
+        }
     }
 
-    const userCheckBlocked = async(item) => {
+    const userCheckBlocked = async (item) => {
         const user = await getUser(item)
         return user.isBlocked
     }
-    const onBlocked = async(item, e) => {
+    const onBlocked = async (item, e) => {
         const isBlocked = await userCheckBlocked(item)
         console.log(isBlocked)
         blockUser(item, !isBlocked)
-        if(!isBlocked) {
+        if (!isBlocked) {
             e.target.innerHTML = 'unBlock'
             e.target.style.color = 'blue'
         } else {
-            e.target.innerHTML='Block'
+            e.target.innerHTML = 'Block'
             e.target.style.color = 'red'
         }
     }
@@ -118,7 +138,7 @@ const UserList = () => {
             title: 'Block',
             dataIndex: '_id',
             width: '5%',
-            render: item => <span style={{color: 'red', cursor: 'pointer'}} onClick={(e) => onBlocked(item, e)}>Block</span>
+            render: item => <span style={{ color: 'red', cursor: 'pointer' }} onClick={(e) => onBlocked(item, e)}>Block</span>
         },
         {
             title: 'Impressionate',

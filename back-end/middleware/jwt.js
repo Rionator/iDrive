@@ -6,7 +6,8 @@ function generateAccessToken(user) {
       _id: user._id,
       name: user.name,
       isAdmin: user.isAdmin,
-      isBlocked: user.isBlocked
+      isBlocked: user.isBlocked,
+      email: user.email
     },
     process.env.ACCESS_TOKEN_SECRET,
     {

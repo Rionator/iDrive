@@ -27,6 +27,15 @@ export const NavLink = styled(Link)`
     color: #15cdfc;
   }
 `;
+export const NavText = styled.span`
+  color: #15cdfc;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+`;
 
 export const Bars = styled(FaBars)`
   display: none;

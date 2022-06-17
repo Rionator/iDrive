@@ -1,6 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { UserContext,AdminContext } from '../../contexts/AuthContext';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { UserContext } from '../../contexts/AuthContext';
 import { Button, Checkbox, Form, Input } from 'antd';
 import './login.css'
 import { loginFetch } from '../../api/getAPI';
@@ -9,10 +8,10 @@ import { getIsAdmin } from '../../auth/auth';
 
 const Login = () => {
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [email] = useState('');
     const [password, setPassword] = useState('');
 
-    const {isLogged, setIsLogged, isAdmin, setIsAdmin} = useContext(UserContext)
+    const {setIsLogged, setIsAdmin} = useContext(UserContext)
 
     const navigate = useNavigate()
 

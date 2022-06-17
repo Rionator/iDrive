@@ -8,6 +8,7 @@ exports.register = (req, res) => {
     res.status(400).send({ message: "Content cannot be empty" });
     return;
   }
+  const storage = 0
   let password = req.body.password;
   password = bcrypt.hash(password, 10).then((password) => {
     const user = new Userdb({
@@ -17,7 +18,8 @@ exports.register = (req, res) => {
       phoneNumber: req.body.phoneNumber,
       gender: req.body.gender,
       isAdmin: req.body.isAdmin,
-      isBlocked: req.body.isBlocked
+      isBlocked: req.body.isBlocked,
+      storage: storage
     });
     user
       .save(user)

@@ -53,6 +53,22 @@ export function getIsBlocked(key = "token") {
     return false
 }
 
-export function setTokenWithExpiry() {
+export function getUserInfos(key="token") {
+    const itemStr = localStorage.getItem(key)
+    if (!itemStr) {
+        // console.log('No token Admin')
+        return null
+    }
+
+    // const item = JSON.parse(itemStr)
+    const decodedItem = jwt_decode(itemStr)
+    return decodedItem
+}
+export function clearToken() {
     localStorage.removeItem("token")
-};
+    try {
+        localStorage.removeItem("adminToken")
+    } catch (error) {
+        console.log(error)
+    }
+}

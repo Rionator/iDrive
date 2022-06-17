@@ -18,7 +18,6 @@ connect.once("open", () => {
 
 exports.createFile = async (req, res) => {
   try {
-    console.log(req.file);
     if (req.file === undefined || !req.file || req.file.length === 0) {
       return res.status(400).send({
         message: "You must select a file.",

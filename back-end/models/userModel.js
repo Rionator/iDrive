@@ -33,6 +33,10 @@ const Userschema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  storage: {
+    type: Number,
+    default: 0
+  }
 });
 
 const Userdb = mongoose.model("userdb", Userschema);

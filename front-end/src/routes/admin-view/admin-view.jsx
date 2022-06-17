@@ -3,7 +3,7 @@ import UserList from '../../components/user-list/UserList'
 
 const AdminView = () => {
   return (
-    <UserList/>
+    <UserList />
   )
 }
 

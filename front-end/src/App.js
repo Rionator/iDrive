@@ -17,7 +17,8 @@ const App = () => {
   // const { isAdmin, isLogged } = React.useContext(UserContext);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
-  const [isBlocked, setIsBlocked] = useState(false)
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [isImpressionate, setIsImpressionate] = useState(false);
 
   // const providerIsLogged = useMemo(() => ({ isLogged, setIsLogged }), [isLogged, setIsLogged])
   // const providerIsAdmin = useMemo(() => ({ isAdmin, setIsAdmin }), [isAdmin, setIsAdmin])
@@ -37,7 +38,7 @@ const App = () => {
   return (
     <>
 
-      <UserContext.Provider value={{ isAdmin, setIsAdmin, isLogged, setIsLogged }}>
+      <UserContext.Provider value={{ isAdmin, setIsAdmin, isLogged, setIsLogged, isImpressionate, setIsImpressionate }}>
         <Navbar isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
         <Routes>
           <Route path='*' element={<FourOFourError />} />

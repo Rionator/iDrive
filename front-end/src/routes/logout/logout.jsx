@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import clearToken from '../auth/auth'
 import { useNavigate } from "react-router-dom";
 import { UserContext } from '../../contexts/AuthContext';
 
 const Logout = () => {
     const navigate = useNavigate();
-    const {isLogged, setIsLogged, isAdmin, setIsAdmin} = useContext(UserContext)
+    const {setIsLogged, setIsAdmin} = useContext(UserContext)
     
     useEffect(() => {
         const isCleared = async () => {

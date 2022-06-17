@@ -5,7 +5,6 @@ const storage = new GridFsStorage({
   url: process.env.MONGO_URL,
   file: (req, file) => {
     const userJWT = req.user;
-    console.log(req.user);
     return new Promise((resolve, reject) => {
       const fileInfo = {
         metadata: { owner_id: userJWT._id },
