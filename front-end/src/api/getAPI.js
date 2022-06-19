@@ -1,5 +1,15 @@
 import { niceBytes } from "../utils/utils"
 
+export const deleteUser = async(id) => {
+  console.log(id)
+  const response = await fetch(`http://localhost:8080/api/users/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'authorization': "Bearer " + localStorage.getItem('token')
+    }
+  })
+  return response.json()
+}
 export const downloadFile = async (id) => {
   const response = await fetch(`http://localhost:8080/api/download/${id}`, {
     method: 'GET',

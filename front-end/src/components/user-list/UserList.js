@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { getUsers, getUser, blockUser, loginFetch } from '../../api/getAPI'
-import { SearchOutlined, StopOutlined, LoginOutlined } from '@ant-design/icons';
+import { getUsers, getUser, blockUser, loginFetch, deleteUser } from '../../api/getAPI'
+import { SearchOutlined, LoginOutlined, DeleteFilled } from '@ant-design/icons';
 import { Table, Input, Button } from 'antd'
 import { getIsAdmin, getIsBlocked } from '../../auth/auth';
 import { UserContext } from '../../contexts/AuthContext';
@@ -63,6 +63,13 @@ const UserList = () => {
         }
     }
 
+    const onDeleteItem = (item) => {
+        deleteUser(item)
+        setUsersList(pre => {
+            return pre.filter(filesList => filesList._id !== item)
+        })
+    }
+    
     const userCheckBlocked = async (item) => {
         const user = await getUser(item)
         return user.isBlocked
@@ -132,7 +139,7 @@ const UserList = () => {
         {
             title: 'Phone',
             dataIndex: 'phoneNumber',
-            width: '30%',
+            width: '25%',
         },
         {
             title: 'Block',
@@ -145,6 +152,12 @@ const UserList = () => {
             dataIndex: '_id',
             width: '5%',
             render: item => <LoginOutlined onClick={(e) => onImpersonate(item)} />
+        },
+        {
+            title: 'Delete User',
+            dataIndex: '_id',
+            width: '5%',
+            render: item => <DeleteFilled style={{ color: 'red' }} onClick={(e) => onDeleteItem(item)} />
         },
     ]
     return (

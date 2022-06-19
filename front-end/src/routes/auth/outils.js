@@ -12,7 +12,7 @@ export function getAdminStatus(key = "token") {
   const decodedItem = jwt_decode(item.token)
 
   // compare the expiry time of the item with the current time
-  if (decodedItem.is_admin) {
+  if (decodedItem.isAdmin) {
     // If the item is expired, delete the item from storage
     // and return null
     return true

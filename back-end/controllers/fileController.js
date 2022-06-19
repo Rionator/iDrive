@@ -127,7 +127,7 @@ exports.deleteFileById = async (req, res) => {
 exports.deleteUserDocuments = async (req, res, next) => {
   try {
     const userJWT = req.user;
-    if (!userJWT.is_admin) {
+    if (!userJWT.isAdmin) {
       const files = await gfs.files
         .find({ "metadata.owner_id": userJWT._id })
         .toArray();
@@ -156,10 +156,8 @@ exports.AdminDeleteUserDocumentsById = async (req, res, next) => {
     const files = await gfs.files
       .find({ "metadata.owner_id": req.params.userId })
       .toArray();
-    if (userJWT.is_admin) {
-      if (!files || files === undefined || files.length === 0) {
-        res.status(400).json({ message: "File : remove failure, no files." });
-      } else {
+    if (userJWT.isAdmin) {
+      if (files) {
         files.forEach((item) => {
           gfsBucket.delete(ObjectId(item._id), (error) => {
             if (error) {

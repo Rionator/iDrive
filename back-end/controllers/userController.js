@@ -129,8 +129,7 @@ exports.deleteUserById = async (req, res) => {
   const id = req.params.id;
   const userInDb = await Userdb.findById(id);
   userJWT = req.user;
-
-  if (userJWT.isAdmin && userJWT._id != id) {
+  if (!userJWT.isAdmin) {
     return res
       .status(401)
       .send({ message: "Not authorized to delete other user" });
